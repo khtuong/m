@@ -11,6 +11,11 @@
   let rafId;
   let rafState;
 
+  let acc = 0.1;
+  let delayedYOffset = 0;
+  let rafId;
+  let rafState;
+
   const sceneInfo = [
     {
       // 0
