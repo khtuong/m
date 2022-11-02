@@ -1,0 +1,390 @@
+@import "_variable.scss";
+@import "_reset.scss";
+@import "_mixin.scss";
+
+//
+//
+// common
+//
+* {
+  box-sizing: border-box;
+}
+
+@keyframes loading-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loading-circle-ani {
+  0% {
+    stroke-dashoffset: 157;
+  }
+  75% {
+    stroke-dashoffset: -147;
+  }
+  100% {
+    stroke-dashoffset: -157;
+  }
+}
+
+//
+// loading
+//
+.loading {
+  @include flexbox();
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: #fff;
+  opacity: 0;
+  transition: 0.5s;
+
+  .loading-circle {
+    width: 54px;
+    height: 54px;
+    animation: loading-spin 3s infinite;
+
+    circle {
+      stroke: #000;
+      stroke-width: 4;
+      // getTotalLength()로 stroke의 길이를 얻어올 수 있음
+      stroke-dasharray: 157;
+      stroke-dashoffset: -157;
+      fill: transparent;
+      animation: loading-circle-ani 1s infinite;
+    }
+  }
+}
+
+.before-load {
+  overflow: hidden;
+
+  article {
+    display: none;
+  }
+
+  .loading {
+    opacity: 1;
+  }
+}
+
+article {
+  // iphone 가로 스크롤 방지
+  overflow-x: hidden;
+}
+
+//
+//
+// header
+//
+
+header {
+  .global-nav {
+    @include nav2;
+    top: 0;
+    padding: 0 1rem;
+    height: 44px;
+
+    .global-nav-links {
+      @include nav;
+    }
+  }
+
+  .local-nav {
+    @include nav2;
+    top: 45px;
+    padding: 0 1rem;
+    height: 52px;
+    border-bottom: 1px solid #ddd;
+
+    .local-nav-inner {
+      @include nav;
+
+      h1 {
+        margin-right: auto;
+        font-size: 1.2em;
+      }
+
+      .local-nav-links {
+        @include flexbox();
+
+        li:not(:last-child) {
+          margin-right: 2rem;
+        }
+      }
+    }
+  }
+}
+
+//
+// fixed nav
+//
+.local-nav-sticky {
+  header {
+    .local-nav {
+      position: fixed;
+      top: 0;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: saturate(180%) blur(15px);
+    }
+  }
+}
+
+//
+// content
+//
+
+.scroll-section {
+  position: relative;
+  padding-top: 50vh;
+
+  &#scrollsection-0 {
+    h2 {
+      font-size: 4rem;
+      text-align: center;
+      position: relative;
+      top: -10vh;
+      z-index: 2;
+    }
+  }
+
+  .main-message {
+    @include flexbox();
+    height: 3em;
+    font-size: 2.5rem;
+    opacity: 0;
+
+    &.a,
+    &.b,
+    &.c,
+    &.d {
+      top: 35vh;
+    }
+
+    p {
+      font-size: 2rem;
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    small {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 0.5em;
+    }
+  }
+
+  .sticky-elem {
+    display: none;
+    position: fixed;
+    left: 0;
+    width: 100%;
+
+    &.sticky-elem-canvas {
+      top: 0;
+      height: 100%;
+
+      canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+      }
+    }
+  }
+
+  &#scrollsection-2 {
+    .main-message {
+      font-size: 3.5rem;
+
+      p {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b {
+      top: 10%;
+      left: 40%;
+    }
+
+    .c {
+      top: 15%;
+      left: 45%;
+    }
+  }
+
+  .desc-message {
+    width: 50%;
+    font-weight: bold;
+    opacity: 0;
+
+    .pin {
+      width: 1px;
+      height: 100px;
+      background-color: $black;
+    }
+  }
+
+  .description {
+    font-size: 1.2rem;
+    color: $grey;
+    padding: 0 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    strong {
+      float: left;
+      margin-right: 0.2em;
+      color: $black;
+      font-size: 3rem;
+    }
+  }
+
+  .mid-message {
+    width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem 2em;
+    font-size: 2rem;
+    color: $grey;
+    word-break: break-all;
+
+    strong {
+      font-size: 2.2rem;
+      color: $black;
+    }
+  }
+
+  &#scrollsection-3 {
+    @include flexbox($flexJC: initial);
+    flex-direction: column;
+
+    .image-blend-canvas {
+      background: blue;
+
+      &.sticky {
+        position: fixed;
+      }
+    }
+
+    .canvas-caption {
+      max-width: 1000px;
+      margin: -24rem auto 0;
+      padding: 0 1rem;
+      color: $grey;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+.normal-content {
+  max-width: 1000px;
+
+  .mid-message {
+    margin: 0 auto;
+    padding: 0 1rem 2em;
+    font-size: 2rem;
+    color: $grey;
+    word-break: break-all;
+  }
+}
+
+.scroll-effect-end {
+  .sticky-elem {
+    display: none !important;
+  }
+}
+
+#show-scene-0 #scrollsection-0 .sticky-elem,
+#show-scene-1 #scrollsection-1 .sticky-elem,
+#show-scene-2 #scrollsection-2 .sticky-elem,
+#show-scene-3 #scrollsection-3 .sticky-elem {
+  display: block;
+  will-change: transform, opacity;
+}
+
+//
+//
+// footer
+//
+
+footer {
+  @include flexbox();
+  background-color: $black;
+  color: $white;
+  height: 7em;
+}
+
+//
+//
+//
+@include pc {
+  .scroll-section {
+    &#scrollsection-0 {
+      h2 {
+        font-size: 9vw;
+      }
+    }
+
+    .main-message {
+      font-size: 4vw;
+      p {
+        font-size: 4vw;
+      }
+
+      small {
+        font-size: 1.5vw;
+      }
+    }
+
+    .description {
+      padding: 0;
+      font-size: 2rem;
+
+      strong {
+        font-size: 6rem;
+      }
+    }
+
+    .desc-message {
+      width: 20%;
+    }
+
+    &#scrollsection-2 {
+      .main-message {
+        font-size: 6vw;
+
+        p {
+          font-size: 6vw;
+        }
+      }
+
+      .b {
+        top: 20%;
+        left: 53%;
+      }
+
+      .c {
+        left: 55%;
+      }
+    }
+
+    .mid-message {
+      font-size: 4vw;
+      padding: 0;
+
+      strong {
+        font-size: 4vw;
+      }
+    }
+    &#scrollsection-3 {
+      .canvas-caption {
+        margin-top: -8rem;
+        padding: 0;
+        font-size: 2rem;
+      }
+    }
+  }
+}
